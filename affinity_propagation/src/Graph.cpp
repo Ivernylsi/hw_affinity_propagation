@@ -4,9 +4,7 @@
 Graph::Graph(const std::string &fname, const int size) : size(size) {
   in_idx.resize(size);
   out_idx.resize(size);
-
   std::ifstream f(fname);
-
   int i = 0;
   for (;; ++i) {
     int c, r;
@@ -19,6 +17,7 @@ Graph::Graph(const std::string &fname, const int size) : size(size) {
     out_idx[c].push_back(i);
   }
 
+  // fill Diagonal elements
   start_diagonal = i;
 
   for (int j = 0; j < size; ++j, ++i) {

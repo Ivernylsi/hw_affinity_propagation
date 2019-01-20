@@ -8,7 +8,7 @@
 const std::string filename = "/home/little/ML/loc-gowalla_edges.txt";
 const int user_count = 196591;
 
-#if 0
+#if 1
 int main() {
   const int size = user_count;
 
@@ -35,7 +35,7 @@ int main() {
   std::cout << "Finish reading data" << std::endl;
 
   AffinityPropagation ap;
-  auto c = ap.clustering(g, 1); 
+  auto c = ap.clustering(g, 100); 
 
   for(auto cc: c) {
     std::cout << cc << " ";
