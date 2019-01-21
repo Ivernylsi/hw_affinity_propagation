@@ -21,6 +21,7 @@ locs = read_total(file)
 def read(fname, nullLocs = True):
     mapa = {}
     for line in open(fname):
+        line = line.strip()
         i, c = line.split(" ")
         i = int(i)
         c= int(c)
@@ -38,7 +39,8 @@ def read(fname, nullLocs = True):
 
     return mapa
 
-clusters = read("out.txt", False)
+file1 = "out.txt"
+clusters = read(file1)
 
 
 def topN_locs(vec, locs):
@@ -75,7 +77,9 @@ def count_intersections(users, local_locs, count, score):
 def count_Cluster(vec, delim):
     count, score = 0, 0
     random.shuffle(vec)
-    if len(vec) >=  delim:
+    if len(vec) == 1:
+        count += 10
+    else:
         tail_len = len(vec) // delim
         head_len = len(vec) - tail_len
         head = vec[:head_len]
@@ -85,22 +89,35 @@ def count_Cluster(vec, delim):
         count, score = count_intersections(tail, head_locs, count, score)
     return count, score
 
-delim = 3
+
+delim = 2
 sscore = 0
 ccount = 0
 avg = 0
 avg_n = 0
 for i in clusters:
-    if (len(clusters[i]) < delim):
-        continue
     count,score = count_Cluster(clusters[i], delim)
-    if(count == 0):
-        continue
     sscore += score
     ccount += count
+    if count == 0 or score == 0:
+        continue
     avg += score / count
     avg_n += 1
+
 print(avg / avg_n)
 print(sscore / ccount)
+
+
+
+lens = []
+for l in clusters:
+    lens.append(len(clusters[l]))
+lens = sorted(lens)
+lens = lens[::-1]
+lens = lens[:700]
+
+file = open("heights.txt", 'w')
+for i in lens:
+    file.write(str(i) + "\n")
 
 
